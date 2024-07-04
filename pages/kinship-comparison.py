@@ -72,8 +72,10 @@ with col2:
                 with st.spinner("Predicting..."):
                     predicted_label, confidence = facetree.predict(face1_buffer, face2_buffer)
 
-                # Displaying the result with bigger font and rounded percentage
-                st.markdown(f"<h2 style='text-align: center;'>{facetree.get_full_relationship_name(predicted_label)} {(confidence * 100):.2f}%</h2>", unsafe_allow_html=True)
+                if (confidence * 100) < 15.0: 
+                    st.markdown(f"<h2 style='text-align: center;'>No kinship detected</h2>", unsafe_allow_html=True)
+                else:
+                    st.markdown(f"<h2 style='text-align: center;padding: 0; padding-top: 1rem;'>{facetree.get_full_relationship_name(predicted_label)}</h2><h2 style='text-align: center;padding: 0;'><span style='font-size:20px;vertical-align:middle;text-align: center;'>{(confidence * 100):.2f}%</span></h2>", unsafe_allow_html=True)
             else:
                 if not face1_buffer:
                     st.error("No face found in the first image.")
